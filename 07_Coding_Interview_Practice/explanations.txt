@@ -1,0 +1,39 @@
+Question 1:
+    Design Decisions:
+        Data Structure:
+        Algorithm:
+    Efficiency Analysis:
+        Time:
+        Space:
+        
+Question 2:
+    Design Decisions:
+        Data Structure:
+        Algorithm:
+    Efficiency Analysis:
+        Time:
+        Space:
+
+Question 3:
+    Design Decisions:
+        Data Structure:
+        Algorithm:
+    Efficiency Analysis:
+        Time:
+        Space:
+        
+Question 4:
+    Design Decisions:
+        Data Structure:
+        Algorithm:
+    Efficiency Analysis:
+        Time:
+        Space:
+        
+Question 5:
+    Design Decisions:
+        Data Structure:
+        Algorithm:
+    Efficiency Analysis:
+        Time:
+        Space:
