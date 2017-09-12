@@ -1,39 +1,33 @@
 Question 1:
-    Design Decisions:
-        Data Structure:
-        Algorithm:
-    Efficiency Analysis:
-        Time:
-        Space:
+    I used the permutations function in itertools to generate a list of all anagrams,
+    then iterate over them to find whether one is in the string. Both time and space cost
+    of generating all permutations is O(len(t)!) which can be large when len(t) is large.
+    The for loop costs O(len(s)len(t)!) which dominates O(len(t)!). 
+    
+    One way to improve the algorithm is to generate permutations manually, and for each generated 
+    permutation, immediately check whether it is in the string or not.
         
 Question 2:
-    Design Decisions:
-        Data Structure:
-        Algorithm:
-    Efficiency Analysis:
-        Time:
-        Space:
+    Iterate over the string, and at each character, and between each two consecutive characters, expand in both
+    directions to check whether we are at the center of a palindromic substring and record the longest one centered
+    at current position. Then after the iteration, pick out the longest palindromic substring. Assume the length of the
+    string is n. Time complexity is O(n^2) since the iteration cost 2n-1, and at each position, we expand in both 
+    direction which costs O(n). Space complexity is O(n) since we need to store each current longest palindromic substring.
 
 Question 3:
-    Design Decisions:
-        Data Structure:
-        Algorithm:
-    Efficiency Analysis:
-        Time:
-        Space:
+    I implemented the Kruskal's algorithm to find the minimum spanning tree by iterating all edges in nondecreasing
+    order of weights, and merging the correspongding vertices till we only have one big forest left containing all
+    the vertices. Assume E is the number of edges and V is the number of vertices. Then the time complexity is
+    O(E*log V). Space complexity is O(E+V) to store all edges and vertices.
         
 Question 4:
-    Design Decisions:
-        Data Structure:
-        Algorithm:
-    Efficiency Analysis:
-        Time:
-        Space:
+    I exploited the binary search tree property to solve the problem. Iteratively, starting with the root, we compare
+    its value with the two values to see whether they are on both sides of the root. If yes, this means their least
+    common ancester is the root. Otherwise, it is not. Then we go one level deep towards the two values till they are 
+    on both sides of the current node. So time complexity is O(length of the tree) while space complexity is O(1) for 
+    in-place search.
         
 Question 5:
-    Design Decisions:
-        Data Structure:
-        Algorithm:
-    Efficiency Analysis:
-        Time:
-        Space:
+    iterate ove the singly linked list with a fast pointer and a slow pointer separated by m elements. When the fast pointer
+    hit the end of the list, the slow one will point at the mth element from the end. Time complexity is O(length of the list) 
+    while space complexity is O(1) for the one-loop in-place search.
