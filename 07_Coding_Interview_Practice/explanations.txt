@@ -1,11 +1,9 @@
 Question 1:
-    I used the permutations function in itertools to generate a list of all anagrams,
-    then iterate over them to find whether one is in the string. Both time and space cost
-    of generating all permutations is O(len(t)!) which can be large when len(t) is large.
-    The for loop costs O(len(s)len(t)!) which dominates O(len(t)!). 
+    I used Counter in collections to generate a character counter dictionary of t, then iterate over s to see whether
+    the current substring in s of len(t) is an anagram of t by creating a Counter for it too. Creating a counter object
+    is O(1) in both time and space. So only the iteration over s contributes O(len(s)) in time. The overall space
+    complexity is still O(1).
     
-    One way to improve the algorithm is to generate permutations manually, and for each generated 
-    permutation, immediately check whether it is in the string or not.
         
 Question 2:
     Iterate over the string, and at each character, and between each two consecutive characters, expand in both
@@ -24,7 +22,7 @@ Question 4:
     I exploited the binary search tree property to solve the problem. Iteratively, starting with the root, we compare
     its value with the two values to see whether they are on both sides of the root. If yes, this means their least
     common ancester is the root. Otherwise, it is not. Then we go one level deep towards the two values till they are 
-    on both sides of the current node. So time complexity is O(length of the tree) while space complexity is O(1) for 
+    on both sides of the current node. So the time complexity is O(length of the tree) while space complexity is O(1) for 
     in-place search.
         
 Question 5:

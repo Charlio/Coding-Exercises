@@ -13,10 +13,15 @@ def question1(s, t):
     """
     #TODO
     if s == "" or t == "": return False
-    from itertools import permutations
-    anagrams = [''.join(p) for p in permutations(t)]
-    for anagram in anagrams:
-        if s.find(anagram) != -1:
+    from collections import Counter
+    cnt_t = Counter()
+    for char in list(t):
+        cnt_t[char] += 1
+    for i in range(len(s) - len(t) + 1):
+        cnt_s = Counter()
+        for char in list(s[i:i+len(t)]):
+            cnt_s[char] += 1
+        if cnt_t == cnt_s:
             return True
     return False
     
@@ -66,12 +71,12 @@ def longest_palindrome_centered(i, s):
     longest_palindrome = ""
     n = len(s)
     if i % 2 == 0:
-        longest_palindrome = s[i/2]
+        longest_palindrome = s[i/2]     # start with a single character 
         left, right = i/2 - 1, i/2 + 1
     else:
-        left, right = (i-1)/2, (i+1)/2
-    while left >= 0 and right < n and s[left] == s[right]:
-        longest_palindrome = s[left:right+1]
+        left, right = (i-1)/2, (i+1)/2  # start with no character
+    while left >= 0 and right < n and s[left] == s[right]: 
+        longest_palindrome = s[left:right+1] # expand the palindrome in both directions
         left -= 1
         right += 1
     return longest_palindrome
@@ -229,15 +234,46 @@ def question4(T, r, n1, n2):
     Output: a non-negative integer representing the least common ancestor in the tree matrix
     """
     #TODO
+    
+    # check if n1, n2 are in the tree
+    has_n1 = False
+    for i in range(len(T)):
+        if T[i][n1] == 1:
+            has_n1 = True
+            break
+    if not has_n1: 
+        return -1
+        
+    has_n2 = False
+    for i in range(len(T)):
+        if T[i][n2] == 1:
+            has_n2 = True
+            break
+    if not has_n2: 
+        return -1
+        
+    
     anc = r
-    while (anc - n1)*(anc - n2) > 0:
-        anc = [child for child in range(len(T)) if T[anc][child] == 1][n1>anc]
+    while (anc - n1)*(anc - n2) > 0: # check whether n1 and n2 are on the same side of anc
+        anc = [child for child in range(len(T)) if T[anc][child] == 1][n1>anc] # anc goes one depth deeper toward n1 and n2
     return anc
     
 """
 test cases for question 4
 """  
 print("test cases for question 4: ")
+print(question4([[0, 1, 0, 0, 0],
+                 [0, 0, 0, 0, 0],
+                 [0, 0, 0, 0, 0],
+                 [1, 0, 0, 0, 1],
+                 [0, 0, 0, 0, 0]],
+                3,
+                2,
+                4
+               )
+     )
+# -1
+
 print(question4([[0, 1, 0, 0, 0],
                  [0, 0, 0, 0, 0],
                  [0, 0, 0, 0, 0],
