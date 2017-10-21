@@ -98,7 +98,12 @@ you design a system that suggests which coupons they should be given? Can you me
 performing?
 
 Ans:
-    - 
+    - If the customer continually purchase an item that can be comsumed more often (like food, but not tissues for instance),
+    then send the coupon
+    - apply principle component analysis and clustering to group all items, for items customer purchases in one group, conduct
+    regression to find other highly correlated items, and send the coupons to persvade the customer to buy
+    - construct a recommendation system based on general trend, and customer's own purchase history to send coupons for the most
+    popular items
     
     
 --------------------------------------------------------------------------------------------------------------------
@@ -107,7 +112,10 @@ Ans:
 Next year? What are your long-term career goals, and how does this position help you achieve them?
     
 Ans:
-    - personal goals + company goals
+    - role evolving over one year: gain domain knowledge in the field, solid knowledge in ML, frontier research in one
+subfield, article publishment, able to lead junior analyst, able to provide insightful suggestion for company goals    
+    - long-term goals: become an expert in ML and the specific application field, implement own ML framework in c++ to
+    achieve better efficiency, compatable with the position
     
     
     
