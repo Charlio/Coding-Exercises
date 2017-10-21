@@ -1,0 +1,127 @@
+Machine Learning Interview Practice Project
+
+---------------------------------------------------------------------------------------------------------------------
+
+1. We A/B tested two styles for a sign-up button on our company's product page. 100 visitors viewed page A, 
+out of which 20 clicked on the button; whereas, 70 visitors viewed page B, and only 15 of them clicked on 
+the button. Can you confidently say that page A is a better choice, or page B? Why?
+
+Ans: 
+
+    With the given data, the visit rate for page A is 20% = 20/100, and that for page B is 21% = 15/70. So their visit
+    rates are very close to each other. Although B's rate (21%) is a bit higher than A's rate (20%), we cannot conclude
+    that B is a better choice for the following reasons:
+    - probability distributions of the visitors are not given for pages A or B
+    - The two samples do not have the same size (100 vs 70)
+    - The sample sizes are small so we cannot have confidence on the statistic discrepancies
+    
+    
+--------------------------------------------------------------------------------------------------------------------- 
+      
+2. Can you devise a scheme to group Twitter users by looking only at their tweets? No demographic, geographic 
+or other identifying information is available to you, just the messages they’ve posted, in plain text, and a 
+timestamp for each message.
+
+In JSON format, they look like this:
+
+{
+ "user_id": 3,
+ "timestamp": "2016-03-22_11-31-20",
+ "tweet": "It's #dinner-time!"
+}
+
+Assuming you have a stream of these tweets coming in, describe the process of collecting and analyzing them, 
+what transformations/algorithms you would apply, how you would train and test your model, and present the results.
+
+Ans: 
+
+    We can first transform the data in JSON format into pandas dataframe with columns "user_id", "timestamp", and "tweet".
+    Then we can explore the data initially. For example, we can draw histograms for times with x-axis the dates, y-axis number of
+    tweets on that date, as well as the x-axis all hours or minutes in a day, y-axis number of tweets from all dates at that specific time.
+    Moreover, we can analyze 'tweet' using word counting to learn the frequencies of most common words.
+    
+    Next, since tweet can be highly correlated with time, we shall apply the principal component analysis to the dataframe to 
+    understand it better.
+    
+    Generally I want to apply clustering to learn patterns in the data, so I would like to draw some graphs. x-axis can be
+    all the words (transformed into arrays of ints), y-axis can be different minutes in a day. Then from the graphs we shall
+    have our initial guess of the number of clusters. Then I will apply the kmean algorithm to train a clustering model with 
+    part of the data as the training set, and test it with another part of the data as the test set.
+    
+    
+
+--------------------------------------------------------------------------------------------------------------------
+
+3. In a classification setting, given a dataset of labeled examples and a machine learning model you're trying to fit,
+describe a strategy to detect and prevent overfitting. 
+
+Ans: 
+    
+    First we divide the data into training, validating and testing sets. Then we can use the training and validating sets 
+    to fit the model with different choices of parameters. Draw error graphs and observe errors from training and validating
+    sets. We shall expect the training error to be decreasing while the validating error to first decrease, then increase.
+    When error from the validating set starts to increase, the model is overfitted. Thus we shall pick parameters when the 
+    validating error is minimum.
+    
+
+--------------------------------------------------------------------------------------------------------------------
+
+4. Your team is designing the next generation user experience for your flagship 3D modeling tool. Specifically, you
+have been tasked with implementing a smart context menu that learns from a modeler’s usage of menu options and shows
+the ones that would be most beneficial. E.g. I often use Edit > Surface > Smooth Surface, and wish I could just 
+right click and there would be a Smooth Surface option just like Cut, Copy and Paste. Note that not all commands 
+make sense in all contexts, for instance I need to have a surface selected to smooth it. How would you go about 
+designing a learning system/agent to enable this behavior?
+    
+Ans:
+    - classification: features are different interfaces in the 3D modeling tool; label is the user clicks smooth
+    surface or not
+    - train a model based on the user data and 
+    
+
+--------------------------------------------------------------------------------------------------------------------
+
+5. Give an example of a situation where regularization is necessary for learning a good model. How about one where
+regularization doesn't make sense?
+
+Ans:
+    - regularization: prevent overfitting, in linear regression, L1, L2 to modify the error function, also for 
+    feature selection
+    - When makes no sense: not enough data? 
+    
+
+--------------------------------------------------------------------------------------------------------------------
+
+6. Your neighborhood grocery store would like to give targeted coupons to its customers, ones that are likely to be
+useful to them. Given that you can access the purchase history of each customer and catalog of store items, how would
+you design a system that suggests which coupons they should be given? Can you measure how well the system is
+performing?
+
+Ans:
+    - 
+    
+    
+--------------------------------------------------------------------------------------------------------------------
+
+7. If you were hired for your machine learning position starting today, how do you see your role evolving over the
+Next year? What are your long-term career goals, and how does this position help you achieve them?
+    
+Ans:
+    - personal goals + company goals
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+   
+    
