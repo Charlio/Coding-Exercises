@@ -102,8 +102,8 @@ Ans:
     then send the coupon
     - apply principle component analysis and clustering to group all items, for items customer purchases in one group, conduct
     regression to find other highly correlated items, and send the coupons to persvade the customer to buy
-    - construct a recommendation system based on general trend, and customer's own purchase history to send coupons for the most
     popular items
+    - construct a recommendation system based on general trend, and customer's own purchase history to send coupons for the most
     
     
 --------------------------------------------------------------------------------------------------------------------
