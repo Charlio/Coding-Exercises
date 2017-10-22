@@ -116,7 +116,7 @@ class Graph(object):
         for node in self.nodes:
             node.visited = False
         
-    def dfs_helper(self, start_node):
+    def dfs_helper_recursive(self, start_node):
         '''
         Inplement Depth-First Search of a graph with recursion iterating through each node's edges
         OUTPUTS: a list of node numbers corresponding to the traversed nodes
@@ -132,6 +132,29 @@ class Graph(object):
                 ret_list += self.dfs_helper(edge.node_to)
         return ret_list
         
+    def dfs_helper_iterative(self, start_node):
+        '''
+        Inplement Depth-First Search of a graph with iteration through each node's edges
+        OUTPUTS: a list of node numbers corresponding to the traversed nodes
+        in a Depth-First Search
+        ARGUMENTS: the start node (Node object)
+        MODIFIES: set self.visited to True in each Node object 
+        RETURN: a list of node values (int)
+        '''    
+        self._clear_visited()
+        ret_list = []
+        stack = [start_node]
+        start_node.visited = True
+        while stack:
+            curr_node = stack.pop()
+            ret_list.append(curr_node.value)
+            for i in range(len(curr_node.edges)-1, -1, -1):
+                if curr_node.edges[i].node_from == curr_node and curr_node.edges[i].node_to.visited == False:
+                    stack.append(curr_node.edges[i].node_to)
+                    curr_node.edges[i].node_to.visited = True
+        return ret_list
+        
+        
     def dfs(self, start_node_num):
         '''
         OUTPUTS: a list of node numbers corresponding to the traversed nodes
@@ -142,7 +165,7 @@ class Graph(object):
         '''
         self._clear_visited()
         start_node = self.find_node(start_node_num)
-        return self.dfs_helper(start_node)
+        return self.dfs_helper_iterative(start_node)
         
         
     def dfs_names(self, start_node_num):
@@ -244,15 +267,15 @@ pp.pprint(graph.get_adjacency_list_names())
 print "\nAdjacency Matrix"
 pp.pprint(graph.get_adjacency_matrix())
 
-# print "\nDepth First Search"
-# pp.pprint(graph.dfs_names(2))
+print "\nDepth First Search"
+pp.pprint(graph.dfs_names(2))
 
 # Should print:
 # Depth First Search
 # ['London', 'Shanghai', 'Mountain View', 'San Francisco', 'Berlin', 'Sao Paolo']
 
-print "\nBreadth First Search"
-pp.pprint(graph.bfs_names(2))
+# print "\nBreadth First Search"
+# pp.pprint(graph.bfs_names(2))
 # test error reporting
 # pp.pprint(['Sao Paolo', 'Mountain View', 'San Francisco', 'London', 'Shanghai', 'Berlin'])
 
