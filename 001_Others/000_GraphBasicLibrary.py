@@ -204,7 +204,73 @@ class Graph(object):
         '''
         return [self.node_names[node_num] for node_num in self.bfs(start_node_num)]
         
+        
+        
+    def get_edge_cost(self, node_from_val, node_to_val):
+        node_from = self.find_node(node_from_val)
+        for edge in node_from.edges:
+            if edge.node_to.value == node_to_val:
+                return edge.value
+        return None
+        
+    def get_node_val_from_name(self, node_name):
+        for i in range(len(self.node_names)):
+            if self.node_names[i] == node_name:
+                return i
+        return -1
+        
+    def present_costs(self, node_list, asNum = True):
+        '''
+        given a list of nodes, add edge cost between consecutive nodes, 
+        nodes can be given as node numbers or node names
+        '''
+        ret_list = []
+        if asNum == False:
+            for i in range(len(node_list)):
+                node_list[i] = self.get_node_val_from_name(node_list[i])
+        ret_list_cost = [node_list[0]]
+        for i in range(1, len(node_list)):
+            ret_list_cost.append(self.get_edge_cost(ret_list[-1], node_list[i])) # search for the edge cost
+            ret_list_cost.append(node_list[i])
+        return ret_list_cost 
+    
+     
+    def mcs(self, start_node_num, end_node_num, show_costs = True):
+        '''
+        Implement minimum cost search from a given node to another given node based on edge costs.
+        Implementation uses Dijkstra's algorithm
+        OUTPUTS: a list of node numbers corresponding to the traversed nodes
+        in a minimum cost search. If show_costs sets to True, then also present edge costs between nodes
+        ARGUMENTS: the start and end node numbers (int)
+        MODIFIES: 
+        RETURN: a list of node values (int), consecutive nodes are separated by the edge cost (int) between them
+        '''
+        max_idx = self.find_max_index()
+        prev = [None]*(max_idx + 1)
+        v_set = [(node.value, float('inf')) for node in self.nodes]
+        self._clear_visited()
+        while v_set:
+            curr_node = v_set.find(min(dist))
+            v_set.remove(curr_node)
+            
+        pass
+        
+    def mcs_names(self, start_node_num, end_node_num, show_costs = True):
+        '''
+        return results from mcs with node numbers converted to node names
+        '''
+        ret_list = self.mcs(start_node_num, end_node_num, False)
+        ret_list_names = [self.node_names[node_num] for node_num in ret_list]
+        return self.present_costs(ret_list_names, False)
+        
+
+
+
+     
 # TESTS
+
+
+
 
 '''
 # test graph representation
@@ -220,6 +286,9 @@ print graph.get_adjacency_list()
 # Should be [[0, 0, 0, 0, 0], [0, 0, 100, 101, 102], [0, 0, 0, 0, 0], [0, 0, 0, 0, 103], [0, 0, 0, 0, 0]]
 print graph.get_adjacency_matrix()
 '''
+
+
+
 
 # test dfs and bfs
 graph = Graph()
@@ -274,8 +343,8 @@ pp.pprint(graph.dfs_names(2))
 # Depth First Search
 # ['London', 'Shanghai', 'Mountain View', 'San Francisco', 'Berlin', 'Sao Paolo']
 
-# print "\nBreadth First Search"
-# pp.pprint(graph.bfs_names(2))
+print "\nBreadth First Search"
+pp.pprint(graph.bfs_names(2))
 # test error reporting
 # pp.pprint(['Sao Paolo', 'Mountain View', 'San Francisco', 'London', 'Shanghai', 'Berlin'])
 
