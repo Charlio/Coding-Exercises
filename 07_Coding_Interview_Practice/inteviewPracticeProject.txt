@@ -159,25 +159,22 @@ Ans:
 7. If you were hired for your machine learning position starting today, how do you see your role evolving over the
 Next year? What are your long-term career goals, and how does this position help you achieve them?
     
-Ans:
-    - research in the field, refine models, construct new models
-    - lead junior analyst, able to provide insightful suggestion for company goals    
-    - long-term goals: become an expert in ML and the specific application field, implement own ML framework in c++ to
-    achieve better efficiency, compatable with the position
+Ans:    
+    I will use my expertise in deep learning to solve computer vision problems, especially image segmentaion and object 
+    detection with the Python tensorflow library. Moreover, I'll improve the models at the designing level from applied
+    math perspective based on my academic background in mathematics.
     
-    
-    For the following year, I expect to become efficient in applying deep learning techniques especially convolutional 
-    neural networks to solve computer vision problems like image classification, object detection and localization. On 
-    one aspect, I will gain experience on implementation of existing models to solve problems the team is interested in.
-    I will especially focus on how to make the implementation more efficient, by both transfering the model to C++ platform,
-    and tuning parameters according to the characterisitics of the dataset. On another aspect, I would like to learn 
-    cutting-edge advances in the field by reading recent papers, blogs, and communication with friends and colleagues, 
-    and expect to try new methods on prototypes of our challenging problems. 
+    For the following year, I expect to become efficient in deep learning techniques especially convolutional 
+    neural networks for consumer applications. On one aspect, I will gain experience on implementation of existing models to 
+    solve problems the team is interested in. I will especially focus on how to make the implementation more efficient, by 
+    both transfering the model to C++ platform, and tuning parameters according to the characterisitics of the dataset. On 
+    another aspect, I would like to learn cutting-edge advances in the field by reading recent papers, blogs, and communication 
+    with friends and colleagues, and expect to try new methods on prototypes of our challenging problems. 
     
     My long-term career goal is to become an expert in the field of deep learning. One important task is to establish and 
-    improvement the company's AI platform. After experimenting new methods on simple problems, I would like to systematically update
-    our platform with these tested new methds. Another task is to conduct research and keep searching for new trends, new 
-    directions, and new breakthrough.
+    improvement the company's AI platform. After experimenting new methods on simple problems, I would like to systematically 
+    update our platform with these tested new methds. Another task is to conduct research and keep searching for new trends,
+    new directions, and new breakthrough.
     
     I hope my plan is parallel with the company's plan in the near future. We shall both continue the business on existing
     resources and tools, while invest in R&D to establish long-term advantage in the industry.
