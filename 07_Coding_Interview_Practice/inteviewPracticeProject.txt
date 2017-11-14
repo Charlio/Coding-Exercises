@@ -8,12 +8,25 @@ the button. Can you confidently say that page A is a better choice, or page B? W
 
 Ans: 
 
-    With the given data, the visit rate for page A is 20% = 20/100, and that for page B is 21% = 15/70. So their visit
-    rates are very close to each other. Although B's rate (21%) is a bit higher than A's rate (20%), we cannot conclude
-    that B is a better choice for the following reasons:
-    - probability distributions of the visitors are not given for pages A or B
-    - The two samples do not have the same size (100 vs 70)
-    - The sample sizes are small so we cannot have confidence on the statistic discrepancies
+    - Though there are more visitors clicking button A (20) than B(15), we cannot simply conclude page A is
+      better than page B, because the total numbers of visitors are different (100 vs 70). So we should at
+      least compare the visit rates.
+    - With the given data, the visit rate for page A is 20% = 20/100, and that for page B is 21% = 15/70. 
+      We can see So the two rates are very close to each other. Although B's rate (21%) is a bit higher 
+      than A's rate (20%), we still need some statisitcal analysis to determine which is better.   
+    - we assume whether each visitor views page A or B is a binomial distribution with clicking probabilities
+      pA and pB. Now let's compute pA, pB, as well as the standard deviations stdA, stdB
+    - For page A: nA = 100, pA = 0.2; stdA = sqrt(0.2*0.8/100) = 0.04
+    - For page B: nB = 70, pB = 0.214; stdB = sqrt(0.214*0.786/70) = 0.049
+    - The next step is to construct confidence intervals. Let's first try with 95%.
+    - A: 95% confidence interval of pA: pA +- 1.96*stdA -> 0.2+- 0.0784 -> (12.16%, 27.84%)
+    - B: 95% confidence interval of pB: 0.214 +- 1.96*0.049 -> 0.214 -+ 0.096 -> (11.80%, 31%)
+    - We can see the two intervals are highly overlapped. This means their difference is not statistically
+      significant. So we cannot conclude which one is better. However, for practical usage, let us try 80%,
+      which corresponds to p+- 1.28*std
+    - This leads to the two intervals: A (14.88%, 25.12%); B (15.13%, 27.67%)
+    - The 80% confidence intervals of A and B are still highly overlapped, so we cannot confidently conclude
+        which one is better in this scenario.
     
     
 --------------------------------------------------------------------------------------------------------------------- 
@@ -34,21 +47,22 @@ Assuming you have a stream of these tweets coming in, describe the process of co
 what transformations/algorithms you would apply, how you would train and test your model, and present the results.
 
 Ans: 
-
-    We can first transform the data in JSON format into pandas dataframe with columns "user_id", "timestamp", and "tweet".
-    Then we can explore the data initially. For example, we can draw histograms for times with x-axis the dates, y-axis number of
-    tweets on that date, as well as the x-axis all hours or minutes in a day, y-axis number of tweets from all dates at that specific time.
-    Moreover, we can analyze 'tweet' using word counting to learn the frequencies of most common words.
-    
-    Next, since tweet can be highly correlated with time, we shall apply the principal component analysis to the dataframe to 
-    understand it better.
-    
-    Generally I want to apply clustering to learn patterns in the data, so I would like to draw some graphs. x-axis can be
-    all the words (transformed into arrays of ints), y-axis can be different minutes in a day. Then from the graphs we shall
-    have our initial guess of the number of clusters. Then I will apply the kmean algorithm to train a clustering model with 
-    part of the data as the training set, and test it with another part of the data as the test set.
-    
-    
+    - Since for each tweet, we only have information on user id, time, and the message, we shall apply
+      unsupervised learning techniques like clustering to group users.
+    - We first transform the data in JSON format into pandas dataframe with columns "user_id", "timestamp", and "tweet",
+      parse the timestamp, and remove common trivial words like "the", "a" and punctuations.
+    - For natural language processing, we can split a message into a dictionary of words with their counts,
+      however, for short messages, this may not be a good idea.
+    - We can aim to group tweets into subjects like entertainment, sports, politics, economy, etc.
+    - For clustering, we can first try an easy K-means algorithm, and explore with some choices of number of
+      clusters like 2 - 10.
+    - Next, we can try more complicated method lik GaussianMixture, use the Silhouette score as the metric.
+      Based on the size of the data, we can also apply a grid search on the number of clusters to find the 
+      optimal one. 
+    - Once, we've grouped the tweets. We can further analyze some messages in each group, like find out the 
+      most frequent words, to find its subject as a label. Then we can provide relevant information like ads.
+    - Otherwise, we can also feed information wrapped with a time and a message just like a tweet into the model,
+      and push it to the appropriate group(s).
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -56,12 +70,20 @@ Ans:
 describe a strategy to detect and prevent overfitting. 
 
 Ans: 
-    
-    First we divide the data into training, validating and testing sets. Then we can use the training and validating sets 
-    to fit the model with different choices of parameters. Draw error graphs and observe errors from training and validating
-    sets. We shall expect the training error to be decreasing while the validating error to first decrease, then increase.
-    When error from the validating set starts to increase, the model is overfitted. Thus we shall pick parameters when the 
-    validating error is minimum.
+    - We say a model is overfitted when it dones not generalize well to unseen data. This means it memorized
+      specific characteristics of the training dataset other than learned the general or essential features.
+    - We can try to avoid overfitting in the model selection by using the learning curve which draws the 
+      prediction error of training and testing data vs model complexity. 
+    - Typically, the prediction error of training data decreases as model complexity increase while that of
+      testing data first decreases to a minimum, then starts to increase.
+    - Thus we should pick the model with the lowest testing prediction error. However, this method can be 
+      time-consuming when the model is complex and the dataset is large.
+    - We can also prevent or at least reduce overfitting during compilation of a model by adding regularizers 
+      like l1 or l2, which adds an extra term a proportion of the l1 or l2 norm of the data points in the loss
+      function. In a neural network model, we can also add dropout layers after dense or convolutional layers 
+      to reduce the complexity of the model.
+    - Once we have fixed the model, we can further prevent overfitting during training by observing the training 
+      and validation evaluation errors, and stop training once the validation error becomes increasing.
     
 
 --------------------------------------------------------------------------------------------------------------------
@@ -74,9 +96,18 @@ make sense in all contexts, for instance I need to have a surface selected to sm
 designing a learning system/agent to enable this behavior?
     
 Ans:
-    - classification: features are different interfaces in the 3D modeling tool; label is the user clicks smooth
-    surface or not
-    - train a model based on the user data and 
+    - We can model this task as an unsupervised clustering problem: from all possible menu options, we would like
+      to pick out a number of them to put into the smart menu. We can gather features of these menu options, and 
+      group them into two groups, one for those frequently used, the other for those seldomly used. We then pick out
+      those most close to the center of the first group as our choices for the smart menu.
+    - The features of each menu option for clustering can be chosen from following: a list of times the option button
+      is clicked over the past say 3 months, the duration of use after each click, the path to reach the option like
+      Edit > Surface > Smooth Surface (to measure the difficulty to find the option if not put in the smart menu).
+    - Once we have the above data, we can group them by either the K-means or GaussianMixture algorithms.
+    - If we want the smart menu to be smarter, we can segment the data by time. Say it is 7:00pm now, when I open the 
+      software, it will load usage data over the past say 3 months with only those clicks happend around 7:00pm, say
+      between 6:30pm - 8:00pm, and only use this data to cluster and make the smart menu. So the smart menu will be 
+      different at different times.
     
 
 --------------------------------------------------------------------------------------------------------------------
@@ -85,9 +116,16 @@ Ans:
 regularization doesn't make sense?
 
 Ans:
-    - regularization: prevent overfitting, in linear regression, L1, L2 to modify the error function, also for 
-    feature selection
-    - When makes no sense: not enough data? 
+    - We are given a task to identify say 10 kinds of dog breeds. So we need to design a convolutional neural network
+      as a classification model. To reduce training time, we build the model upon an exising one, say VGG16. However,
+      the VGG16 is trained with hundreds of different categories compared to 10 categories in our task. Thus to prevent
+      overfitting, we need to reduce the number of parameters in the model. So we can add dropout layers following 
+      convolutional and dense layers, and use a high droupout rate like 0.7-0.9. In this way, we tailor a complex model
+      by regularization to fit our use.
+    - In another scenario, we want to use an online stream of usage data of several products to make recommendations.
+      We want to train a classification model in real-time. Thus since now we have huge amount of data to use, and we make
+      the model simple to reduce training time, thus regularization in this case does not make sense since overfitting is 
+      not possible due to the large size of training data and the simplicity of our model. 
     
 
 --------------------------------------------------------------------------------------------------------------------
@@ -98,24 +136,52 @@ you design a system that suggests which coupons they should be given? Can you me
 performing?
 
 Ans:
-    - If the customer continually purchase an item that can be comsumed more often (like food, but not tissues for instance),
-    then send the coupon
-    - apply principle component analysis and clustering to group all items, for items customer purchases in one group, conduct
-    regression to find other highly correlated items, and send the coupons to persvade the customer to buy
-    popular items
-    - construct a recommendation system based on general trend, and customer's own purchase history to send coupons for the most
-    
-    
+    - Given the purchase history of each customer and the catalog of store items, we would like to suggest coupons to 
+      each customer. We can use unsupervised learning to group customers into different categories based on the kinds of
+      products they purchase, and send coupons accordingly. Then after we get enough feedback, we can apply supervised
+      learning to further enhance the suggestion.
+    - We apply clustering in the space of item categories like grocery, fruits, etc. To prepare the data, for each 
+      customer, we count the number of items the customer purchased in each category. And then we use either K-means or 
+      GaussianMixture for clustering. 
+    - Next, we shall analyze the center of each cluster to understand its meaning. Say one center can have a large value
+      in the direction of grocery, while small value in fruits; another center can have an approximately equal weights in 
+      meat and vegetable. We can assume the coordinates of each center represents the best combination of items from 
+      different categories, and we can study the distance of a customer from the corresponding center. Then we can suggest
+      a combination of coupons to reduce this distance. For example, we found one customer in the cluster of balanced 
+      purchases in meat and vegetable, but still not close enough to the center because the customer purchased less vegetable,
+      then we can send more coupons on vegetable. For this to work, we assume the coordinates of each center is stable.
+    - Once we send coupons as suggested from above analysis, we can record the acceptance or redemption rate of each coupons
+      as a testing metric. When we have enough data, we can use a supervised learning model to predict the acceptance of 
+      coupons suggested by our clustering algorithm.
+    - We can also further iteratively combine the two models to progressively give more accurate suggestions.
 --------------------------------------------------------------------------------------------------------------------
 
 7. If you were hired for your machine learning position starting today, how do you see your role evolving over the
 Next year? What are your long-term career goals, and how does this position help you achieve them?
     
 Ans:
-    - role evolving over one year: gain domain knowledge in the field, solid knowledge in ML, frontier research in one
-subfield, article publishment, able to lead junior analyst, able to provide insightful suggestion for company goals    
+    - research in the field, refine models, construct new models
+    - lead junior analyst, able to provide insightful suggestion for company goals    
     - long-term goals: become an expert in ML and the specific application field, implement own ML framework in c++ to
     achieve better efficiency, compatable with the position
+    
+    
+    For the following year, I expect to become efficient in applying deep learning techniques especially convolutional 
+    neural networks to solve computer vision problems like image classification, object detection and localization. On 
+    one aspect, I will gain experience on implementation of existing models to solve problems the team is interested in.
+    I will especially focus on how to make the implementation more efficient, by both transfering the model to C++ platform,
+    and tuning parameters according to the characterisitics of the dataset. On another aspect, I would like to learn 
+    cutting-edge advances in the field by reading recent papers, blogs, and communication with friends and colleagues, 
+    and expect to try new methods on prototypes of our challenging problems. 
+    
+    My long-term career goal is to become an expert in the field of deep learning. One important task is to establish and 
+    improvement the company's AI platform. After experimenting new methods on simple problems, I would like to systematically update
+    our platform with these tested new methds. Another task is to conduct research and keep searching for new trends, new 
+    directions, and new breakthrough.
+    
+    I hope my plan is parallel with the company's plan in the near future. We shall both continue the business on existing
+    resources and tools, while invest in R&D to establish long-term advantage in the industry.
+    
     
     
     
